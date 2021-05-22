@@ -2,7 +2,6 @@
 
 from bs4 import BeautifulSoup
 import requests
-import regex as re
 import sys
 import os
 import json
@@ -19,8 +18,7 @@ def get_info_landkreis(url, landkreis):
     all_raw_data = parsed_page.find('div', class_='row row-cols-1 row-cols-md-3')
     raw_data = list(all_raw_data.find_all('b'))
 
-
-
+    
     data['landkreis'] = landkreis
 
     data['einwohner'] = str(raw_data[0]).translate({ord(i): None for i in '\n <b>/'})
@@ -36,6 +34,7 @@ def get_info_landkreis(url, landkreis):
     data['letalitätsrate'] = str(raw_data[5]).translate({ord(i): None for i in '\n <b>/'})
 
     return data
+
 
 def get_info_bundesland(url, bundesland):
     data = {}
@@ -109,7 +108,7 @@ def get_info_land(url,land):
 
 sorted_data = {}
 
-with open(os.path.join(os.getcwd(), 'app', 'src', 'urls.json')) as jsonfile:
+with open(os.path.join(os.getcwd(), 'daily-informer', 'src', 'urls-corona.json')) as jsonfile:
     url_data = json.load(jsonfile)
 
 liste = []

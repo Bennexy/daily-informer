@@ -1,2 +1,3 @@
 venv/*
 .env
+daily-informer/src/google/token.pickle
