@@ -109,7 +109,7 @@ def get_info_land(url,land):
 
 sorted_data = {}
 
-with open(os.path.join('app', 'src', 'urls.json')) as jsonfile:
+with open(os.path.join(os.getcwd(), 'app', 'src', 'urls.json')) as jsonfile:
     url_data = json.load(jsonfile)
 
 liste = []
@@ -134,7 +134,7 @@ for i in sorted_data:
 
 print(sorted_data)
 
-
+print(os.getcwd())
 
 
 
