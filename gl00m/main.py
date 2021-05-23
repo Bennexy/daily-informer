@@ -18,7 +18,6 @@ def parsing():
         raw_data = parsed_page.find('div', attrs={'class': 'row row-cols-1 row-cols-md-3'})
         necessary_data = raw_data.find_all('b')
         create_data_list(necessary_data, location_data)
-    print(data_list)
     for dictionary in data_list:
         print('\n')
         for key, value in dictionary.items():
