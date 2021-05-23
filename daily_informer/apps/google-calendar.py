@@ -23,8 +23,8 @@ def google_calendar():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists(os.path.join(os.getcwd(), 'daily-informer', 'src', 'google', 'token.pickle')):
-        with open(os.path.join(os.getcwd(), 'daily-informer', 'src', 'google', 'token.pickle'), 'rb') as token:
+    if os.path.exists(os.path.join(os.getcwd(), 'daily_informer', 'src', 'google', 'token.pickle')):
+        with open(os.path.join(os.getcwd(), 'daily_informer', 'src', 'google', 'token.pickle'), 'rb') as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
@@ -32,10 +32,10 @@ def google_calendar():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                os.path.join(os.getcwd(), 'daily-informer', 'src', 'google', 'credentials.json'), SCOPES)
+                os.path.join(os.getcwd(), 'daily_informer', 'src', 'google', 'credentials.json'), SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
-        with open(os.path.join(os.getcwd(), 'daily-informer', 'src', 'google', 'token.pickle'), 'wb') as token:
+        with open(os.path.join(os.getcwd(), 'daily_informer', 'src', 'google', 'token.pickle'), 'wb') as token:
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
@@ -91,8 +91,12 @@ def datum_iso():
 
     return d.strftime("%Y") + "-" + d.strftime("%m") + "-" + d.strftime("%d")
 
+def calendar_data_read():
+    sorted_data = {}
+    sorted_data['events-today'] = google_calendar()
+    return sorted_data
 
-sorted_data = {}
-sorted_data['events-today'] = google_calendar()
+if __name__ == '__main__':
 
-print(sorted_data)
+    print(calendar_data_read())
+

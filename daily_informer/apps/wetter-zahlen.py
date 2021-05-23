@@ -27,6 +27,14 @@ def get_weather_temp(url, ort):
 
     return data
     
+def weather_data_read():
+    with open(os.path.join(os.getcwd(), 'daily_informer', 'src', 'urls-wetter.json')) as jsonfile:
+        url_data = json.load(jsonfile)
+
+    for ort in url_data:
+        sorted_data = get_weather_temp(url_data[ort], ort)
+
+    return sorted_data
 
 
 
@@ -34,24 +42,6 @@ def get_weather_temp(url, ort):
 
 
 
+if __name__ == '__main__':
 
-
-
-
-
-
-
-
-
-
-
-
-
-with open(os.path.join(os.getcwd(), 'daily-informer', 'src', 'urls-wetter.json')) as jsonfile:
-    url_data = json.load(jsonfile)
-
-
-for ort in url_data:
-    sorted_data = get_weather_temp(url_data[ort], ort)
-
-print(sorted_data)
+    print(weather_data_read())

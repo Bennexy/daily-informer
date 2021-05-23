@@ -106,34 +106,32 @@ def get_info_land(url,land):
 
     return data
 
-sorted_data = {}
 
-with open(os.path.join(os.getcwd(), 'daily-informer', 'src', 'urls-corona.json')) as jsonfile:
-    url_data = json.load(jsonfile)
+def corona_data_read():
+    sorted_data = {}
 
-liste = []
-for landkreis in url_data['landkreise']:
-    liste.append(get_info_landkreis(url_data['landkreise'][landkreis], landkreis))
-sorted_data['landkreis'] = liste
-liste = []
-for bundesland in url_data['bundeslaender']:
-    liste.append(get_info_bundesland(url_data['bundeslaender'][bundesland], bundesland))
-sorted_data['bundesland'] = liste
-liste = []
-for land in url_data['laender']:
-    liste.append(get_info_land(url_data['laender'][land], land))
-sorted_data['land'] = liste
-liste = []
+    with open(os.path.join(os.getcwd(), 'daily_informer', 'src', 'urls-corona.json')) as jsonfile:
+        url_data = json.load(jsonfile)
 
-
-for i in sorted_data:
-    for x in sorted_data[i]:
-        print(x)
+    liste = []
+    for landkreis in url_data['landkreise']:
+        liste.append(get_info_landkreis(url_data['landkreise'][landkreis], landkreis))
+    sorted_data['landkreis'] = liste
+    liste = []
+    for bundesland in url_data['bundeslaender']:
+        liste.append(get_info_bundesland(url_data['bundeslaender'][bundesland], bundesland))
+    sorted_data['bundesland'] = liste
+    liste = []
+    for land in url_data['laender']:
+        liste.append(get_info_land(url_data['laender'][land], land))
+    sorted_data['land'] = liste
+    liste = []
+    return sorted_data
 
 
-print(sorted_data)
+if __name__ == '__main__':
 
-print(os.getcwd())
+    print(corona_data_read())
 
 
 
