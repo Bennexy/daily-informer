@@ -131,7 +131,11 @@ def corona_data_read():
 
 if __name__ == '__main__':
 
-    print(corona_data_read())
+    data = corona_data_read()
+
+    for i in data:
+        for x in data[i]:
+            print(i, x)
 
 
 
