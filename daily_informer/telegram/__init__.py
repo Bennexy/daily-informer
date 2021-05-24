@@ -11,6 +11,7 @@ from daily_informer.logger import get_logger
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+
 logger = get_logger('bot_starter')
 
 def telegram_bot():
@@ -23,6 +24,8 @@ def telegram_bot():
         logger.debug('adding commands to bot')
         dp.add_handler(CommandHandler('start', bot_start_command))
         dp.add_handler(CommandHandler('help', bot_help_command))
+        dp.add_handler(CommandHandler('register', bot_register_command))
+        dp.add_handler(CommandHandler('add', bot_add_orte))
 
 
         dp.add_handler(MessageHandler(Filters.text, bot_handle_message))
@@ -32,8 +35,10 @@ def telegram_bot():
 
         # Run the bot
         logger.info('telegram bot ready')
+        print('telegram bot ready')
         updater.start_polling(1.0)
         updater.idle()
+
     except Unauthorized as e:
         logger.error("Unauthorized, invalid api key?")
     except KeyboardInterrupt as e:

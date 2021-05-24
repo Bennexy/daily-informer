@@ -70,20 +70,17 @@ def google_calendar():
     
     return ret
 
-
 def reg_start_date(event_date):
 
     regex_pattern = r"\d{4}-\d{2}-\d{2}"
 
     return re.findall(regex_pattern, event_date)[0]
 
-
 def reg_time(event_data):
     reg_start = r"(?<=T)\d{2}:\d{2}"
     reg_end = r"(?<=\+)\d{2}:\d{2}"
 
     return [re.findall(reg_start, event_data), re.findall(reg_end, event_data)]
-
 
 def datum_iso():
 

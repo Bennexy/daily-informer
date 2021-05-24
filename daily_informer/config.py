@@ -10,5 +10,10 @@ def load_configurations_file():
 load_configurations_file()
 
 API_TOKEN = env("API_TOKEN")
-
+API_KEY_OPEN_WEATHER = env("API_KEY_OPEN_WEATHER")
+DB = env('DB')
+DB_PORT = env('DB_PORT')
+DB_USER = env('DB_USER')
+DB_PASSWORD = env('DB_PASSWORD')
+DB_NAME = env('DB_NAME')
 

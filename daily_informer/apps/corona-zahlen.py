@@ -35,7 +35,6 @@ def get_info_landkreis(url, landkreis):
 
     return data
 
-
 def get_info_bundesland(url, bundesland):
     data = {}
     raw_data = []
@@ -71,7 +70,7 @@ def get_info_bundesland(url, bundesland):
 
     return data
 
-def get_info_land(url,land):
+def get_info_land(url, land):
     data = {}
     raw_data = []
 
@@ -127,6 +126,8 @@ def corona_data_read():
     sorted_data['land'] = liste
     liste = []
     return sorted_data
+
+
 
 
 if __name__ == '__main__':
