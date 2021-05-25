@@ -3,6 +3,7 @@ from mysql.connector.errors import IntegrityError
 sys.path.append('.')
 
 from daily_informer.db.db_handler import *
+from daily_informer.telegram.apps.get_data import *
 
 def reload_ids():
     ids_raw = get_user_ids()
@@ -35,7 +36,19 @@ def add_to_db(id, data):
     else:
         return False
 
+def fetch_data(id):
+
+    id ,name, landkreis, bundesland, land, wetter = get_user_data(id)
+
+    urls = sort_data(landkreis, bundesland, land, wetter)
+
+    raw_infos = get_infos_from_webpages(urls)
+    
+    print(raw_infos)
+    
+
 if __name__ == '__main__':
     #print(reload_ids())
     #1827750600
-    add_to_db(1827750600, ['land', 'test', 'bayern'])
+    #add_to_db(1827750600, ['land', 'test', 'bayern'])
+    fetch_data(1827750600)

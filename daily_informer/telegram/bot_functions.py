@@ -82,7 +82,16 @@ def bot_add_orte(update, context):
     else:
         update.message.reply_text('please add your username to the register command-> /register <username>') 
 
-
+def bot_get_daten(update, context):
+    global ids
+    text = str(update.message.text).lower()
+    id = update.message.chat.id
+    if ids == []:
+        ids = reload_ids()
+    if id in ids:
+        text = fetch_data(id)
+    else:
+        update.message.reply_text('please add your username to the register command-> /register <username>') 
 
 def bot_handle_message(update, context):
     global ids

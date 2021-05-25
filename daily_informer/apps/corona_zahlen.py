@@ -132,14 +132,10 @@ def corona_data_read():
 
 if __name__ == '__main__':
 
-    data = corona_data_read()
-
-    for i in data:
-        for x in data[i]:
-            print(i, x)
+    data = get_info_landkreis(r"https://www.corona-in-zahlen.de/landkreise/lk%20ebersberg/", 'ebersberg')
 
 
-
+    print(data)
 
 
 
