@@ -3,7 +3,7 @@ from mysql.connector.errors import IntegrityError
 sys.path.append('.')
 
 from daily_informer.db.db_handler import *
-from daily_informer.telegram.apps.get_data import *
+from daily_informer.telegram.apps.data_processor import *
 
 def reload_ids():
     ids_raw = get_user_ids()
@@ -44,7 +44,7 @@ def fetch_data(id):
 
     raw_infos = get_infos_from_webpages(urls)
     
-    print(raw_infos)
+    return prepare_string(raw_infos)
     
 
 if __name__ == '__main__':

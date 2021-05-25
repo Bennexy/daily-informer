@@ -111,9 +111,20 @@ def get_infos_from_webpages(urls):
     return data
 
 def prepare_string(data):
-    pass
+    output = [[],[],[],[]]
+    for key_base, value_lsit in data.items():
+        if key_base == 'landkreis':
+            for item_dict in value_lsit:
+                output[0].append(f"""Landkreis: {item_dict['landkreis']} Einwohnerzahl: {item_dict['einwohner']} Infektionen: {item_dict['infektionen']} Infektionsrate: {item_dict['infektionsrate']} Neuinfektionen: {item_dict['neuinfektionen']} Todesfälle: {item_dict['todesfälle']} Letalitätsrate: {item_dict['letalitätsrate']}""")
+        if key_base == 'bundesland':
+            for item_dict in value_lsit:
+                output[1].append(f"""Bundesland: {item_dict['bundesland']} Einwohnerzahl: {item_dict['einwohner']} Infektionen: {item_dict['infektionen']} Infektionsrate: {item_dict['infektionsrate']} Neuinfektionen: {item_dict['neuinfektionen']} Todesfälle: {item_dict['todesfälle']} Letalitätsrate: {item_dict['letalitätsrate']} Erstimpfungen: {item_dict['erstimpfungen']} Impfquote (erstimpfung) {item_dict['impfquote (erstimpfung)']} Impfquote (vollstaeding) {item_dict['impfquote (vollstaeding)']}""")
+        if key_base == 'land':
+            for item_dict in value_lsit:
+                output[2].append(f""" Land: {item_dict['land']} Einwohnerzahl: {item_dict['einwohner']} Infektionen: {item_dict['infektionen']} Infektionsrate: {item_dict['infektionsrate']} Neuinfektionen: {item_dict['neuinfektionen']} Todesfälle: {item_dict['todesfälle']} Letalitätsrate: {item_dict['letalitätsrate']} Erstimpfungen: {item_dict['erstimpfungen']} Impfquote (erstimpfung) {item_dict['impfquote (erstimpfung)']} Impfquote (vollstaeding) {item_dict['impfquote (vollstaeding)']}""")
+        if key_base == 'wetter':
+            for item_dict in value_lsit:
+                output[3].append(f"""Temp max {item_dict['temp_max']} Temp min {item_dict['temp_min']} Regenwahrscheinlichkeit {item_dict['rain']} Datum: {item_dict['date']} Wochentag: {item_dict['weekday']}""")
 
-
-
-
+    return output
 

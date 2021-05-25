@@ -1,3 +1,6 @@
-teststring = "test, test2"
-teststring = teststring.split(',')
-print(teststring)
+test = {'moin': 'dies', 'ist': 'ein', 'test': '.'}
+
+print(test[:1])
+
+
+

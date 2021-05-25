@@ -90,6 +90,12 @@ def bot_get_daten(update, context):
         ids = reload_ids()
     if id in ids:
         text = fetch_data(id)
+        for data_set in text:
+            for data in data_set:
+                update.message.reply_text(data)
+
+
+
     else:
         update.message.reply_text('please add your username to the register command-> /register <username>') 
 
