@@ -23,7 +23,7 @@ def get_logger(logger_name, add_log_file=True):
     logger = logging.getLogger(logger_name)
     logger.setLevel(get_logger_level())
     # logger.setLevel(logging.INFO)
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.ERROR)
     # logger.addHandler(get_console_handler())
     # requests_log = logging.getLogger("requests.packages.urllib3")
     # requests_log.setLevel(logging.DEBUG)

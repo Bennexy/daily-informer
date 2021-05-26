@@ -26,7 +26,6 @@ jobs:
       
       - name: user controll output versions before version update and change branch
         run: |
-          git checkout dev
           echo "core version:"
           cat ${{ env.CORE_VERSION_FILE}}
           echo "db version:"
