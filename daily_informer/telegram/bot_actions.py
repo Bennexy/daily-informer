@@ -1,4 +1,5 @@
 import sys
+from time import time, time_ns
 from mysql.connector.errors import IntegrityError
 sys.path.append('.')
 
@@ -38,12 +39,20 @@ def add_to_db(id, data):
 
 def fetch_data(id):
 
+    start = time_ns()
+
     id ,name, landkreis, bundesland, land, wetter = get_user_data(id)
 
     urls = sort_data(landkreis, bundesland, land, wetter)
 
     raw_infos = get_infos_from_webpages(urls)
+
+    end = time_ns()
+
+    runtime = end - start
     
+    print(runtime)
+
     return prepare_string(raw_infos)
     
 
