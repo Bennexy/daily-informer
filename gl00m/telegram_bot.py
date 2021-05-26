@@ -1,11 +1,32 @@
 #!/usr/bin/python3
-import json
+
+# from corona_data_parser import *
+from telegram.ext import Updater, CommandHandler
+import time
+import schedule
+import requests
+
+#!/usr/bin/python3
 
 from bs4 import BeautifulSoup
 import requests
 
 orte = ['sk%20berlin%20neukölln', 'sk%20hamburg', 'sk%20m%C3%BCnchen']
 data_list = []
+message = ''
+
+
+def telegram_bot_sendtext(bot_message):
+    bot_token = 'API-TOKEN'
+    bot_chatID = ''
+    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+    response = requests.get(send_text)
+    return response.json()
+
+
+def data_report():
+    message_content = message
+    telegram_bot_sendtext(message_content)
 
 
 def parsing():
@@ -21,7 +42,8 @@ def parsing():
     for dictionary in data_list:
         print('\n')
         for key, value in dictionary.items():
-            print(key, ':', value)
+            message = key + ':' + value
+            print(message)
 
 
 def create_data_list(necessary_data, location_data):
