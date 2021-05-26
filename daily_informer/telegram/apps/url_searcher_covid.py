@@ -52,7 +52,7 @@ def url_finder(ort_type, ort):
 
 
 if __name__ == '__main__':
-    print(url_finder('bundesland', 'ebersberg'))
+    print(url_finder('landkreis', 'erding'))
 
 
 
