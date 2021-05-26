@@ -4,6 +4,7 @@ from daily_informer.db.db_handler import get_url_data
 from daily_informer.logger import get_logger
 from daily_informer.apps.corona_zahlen import *
 from daily_informer.apps.wetter_zahlen import *
+from daily_informer.telegram.apps.url_searcher_covid import url_finder
 
 logger = get_logger('url-data-processing')
 
@@ -96,6 +97,10 @@ def get_infos_from_webpages(urls):
     data['wetter'] = []
     for key_base, value_base in urls.items():
         for ort, url in value_base.items():
+            if key_base != 'wetter' and url == 'url not yet registrated':
+                url = url_finder(key_base, ort)
+
+
             logger.debug(f' {key_base} {ort} {url}')
             if key_base == "landkreis" and url != 'url not yet registrated':
                 data['landkreis'].append(get_info_landkreis(url, ort))
