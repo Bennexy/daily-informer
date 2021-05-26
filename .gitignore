@@ -3,4 +3,4 @@ venv/*
 daily-informer/src/google/token.pickle
 daily-informer.log
 .vscode/*
-daily-informer.log.2021-05-23
+.idea/*
