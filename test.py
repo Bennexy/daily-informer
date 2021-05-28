@@ -1,8 +1,8 @@
 test = ['/del', 'test', 'ich', 'bin', 'der', 'beeen']
 string = 'hallo dies ist ein test'
 
+test.remove('/del')
 
-string.replace("been", "")
 
-
+print(test)
 

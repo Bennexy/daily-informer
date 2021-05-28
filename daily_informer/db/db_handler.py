@@ -51,7 +51,7 @@ def get_url_data(type_, name):
     else:
         return myresult[0]
 
-def post_new_user(id, name=None, corona_landkreis=None, corona_bundesland=None, corona_land=None, wetter_ort=None):
+def post_new_user(id, name=None, corona_landkreis="", corona_bundesland="", corona_land="", wetter_ort=""):
     try:
         mycoursor = get_cursor()
         mycoursor.execute(f'INSERT INTO users (id, name, corona_landkreis, corona_bundesland, corona_land, wetter_ort) VALUES ("{id}", "{name}", "{corona_landkreis}", "{corona_bundesland}", "{corona_land}", "{wetter_ort}")')
@@ -72,31 +72,43 @@ def post_new_url(type_, name, url):
 def post_new_user_data(id, type_, dataset):
     
     mycursor = get_cursor()
-    #mycursor.execute(f'SELECT {type_} from users WHERE id = {id}')
-    #myresult = mycursor.fetchall()
-    #myresult = myresult[0][0]
-    #myresult = myresult.split(',')
-    #upload_data = ""
+    mycursor.execute(f'SELECT {type_} from users WHERE id = {id}')
+    myresult = mycursor.fetchall()
+    myresult = myresult[0][0].split(',')
+    
+    data_out = myresult
+    for data in dataset:
+        if data not in data_out:
+            logger.debug(f'{data} not in {data_out}')
+            data_out.append(data)
+        else:
+            logger.debug(f'{data} allready in {data_out}')
+    
+    data_out = ','.join(data_out)
+
+    
 
 
-    #for data in dataset:
-    #    if data not in myresult:
-    #        upload_data += data + ","
-    #    else:
-    #        logger.debug(f'found dublicate {data}')
-    #        print(f'found duplicate {data}')
-
-    #for result in myresult:
-    #    if result != '':
-    #        upload_data += result + ","
-
-    mycursor.execute(f'UPDATE users SET {type_} = "{dataset}" WHERE id = {id}')
-    logger.debug(f'UPDATE users SET {type_} = "{dataset}" WHERE id = {id}')
+    logger.debug(f'UPDATE users SET {type_} = "{data_out}" WHERE id = {id}')
+    mycursor.execute(f'UPDATE users SET {type_} = "{data_out}" WHERE id = {id}')
     mydb.commit()
 
+def delete_user_data(id, type_, dataset):
+    mycursor = get_cursor()
+    mycursor.execute(f'SELECT {type_} from users WHERE id = {id}')
+    myresult = mycursor.fetchall()
+    myresult = myresult[0][0].split(',')
 
+    data_out = myresult
 
+    for ort in dataset:
+        data_out.remove(ort)
 
+    data_out = ','.join(data_out)
+
+    logger.debug(f'UPDATE users SET {type_} = "{data_out}" WHERE id = {id}')
+    mycursor.execute(f'UPDATE users SET {type_} = "{data_out}" WHERE id = {id}')
+    mydb.commit()
 
 
 

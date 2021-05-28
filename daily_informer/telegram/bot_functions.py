@@ -58,35 +58,24 @@ def bot_reload_command(update, context):
 
 @auth
 def bot_add_orte(update, context):
-    text = str(update.message.text).lower()
+    text = str(update.message.text).lower().split(' ')
     id = update.message.chat.id
-    if text[1].lower() == 'corona' or text[1].lower() =="covid":
-        del text[0]
-        del text[0] 
-        
-        if len(text) >= 2:
-            if text[0].lower() == 'landkreis':
-                add_to_db(id, text)
-                update.message.reply_text('added corona data to the db')
-            elif text[0].lower() == 'bundesland':
-                add_to_db(id, text)
-                update.message.reply_text('added corona data to the db')
-            elif text[0].lower() == 'land':
-                add_to_db(id, text)
-                update.message.reply_text('added corona data to the db')
-            else:
-                update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
+    logger.debug(f'input for add: {text}')
+    del text[0]
+    type_base = text.pop(0)
+    if type_base.lower() == 'corona' or type_base.lower() =="covid":
+        type_ = text.pop(0)
+        logger.debug(f'input for add corona: {text}')
+        if type_.lower() in ['landkreis', 'bundesland', 'land'] and len(text) >= 1:
+            add_to_db(id, type_, text)
+            update.message.reply_text('added corona data to the db')
         else:
             update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
-
-    elif text[1].lower() == 'wetter':
-        del text[0]
-        if len(text) >= 0:
-            add_to_db(id, text)
-            update.message.reply_text('added wether data to the db')
-        
-        else:
-            update.message.reply_text('please enter /add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
+    
+    elif type_base.lower() == 'wetter' and len(text) >= 1:
+        logger.debug(f'input for add wetter: {text}')
+        add_to_db(id, type_base, text)
+        update.message.reply_text('added wether data to the db')
     else:
         update.message.reply_text('please enter \n/add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)> \n/add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
 
@@ -108,27 +97,12 @@ def bot_remove_orte(update, context):
     if type_ == 'corona' or type_ == 'covid':
         type_ = text.pop(0)
         if type_ in ['landkreis', 'bundesland', 'land']:
-            db_data = get_user_data(id, 'corona_' + type_)[0]
-            logger.debug(f'input data from db {db_data}, to remove data from user input: {text}')
-            for orte in text:
-                try:
-                    db_data = db_data.replace(f'{orte},', '')
-                    logger.debug(f'db_data: {db_data}')
-                    
-                except Exception as e:
-                    logger.error(f'error {e} occured while trying to remove {orte} from {db_data}')
-            post_new_user_data(id, 'corona_' + type_, db_data)
-            update.message.reply_text(f'removed {orte} from db column {type_}')
+            delete_from_db(id, type_, text)
+            
         else:
             update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
     elif type_ == 'wetter':
-        db_data = get_user_data(id, type_ + '_ort')[0]
-        for orte in text:
-            try:
-                db_data = db_data.replace(f'{orte},', '')
-                post_new_user_data(id, type_ + '_ort', db_data)
-            except Exception as e:
-                logger.error(f'error {e} occured while trying to remove {orte} from {db_data}')
+        delete_from_db(id, type_, text)
     else:
         update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
         update.message.reply_text('please enter /del <wetter> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')

@@ -20,4 +20,6 @@ mycursor.execute("truncate users")
 mydb.commit()
 
 
+print('done')
+
 
