@@ -45,7 +45,8 @@ def fetch_data(id):
     raw_infos = get_infos_from_webpages(urls)
     
     return prepare_string(raw_infos)
-    
+
+
 
 if __name__ == '__main__':
     #print(reload_ids())

@@ -20,15 +20,17 @@ def get_cursor():
     mycursor.execute("USE " + str(DB_NAME))
     return mycursor
 
-def get_user_data(id):
+def get_user_data(id, type_='*'):
     mycursor = get_cursor()
-    mycursor.execute(f'SELECT * FROM users WHERE id ={str(id)}')
+    mycursor.execute(f'SELECT {type_} FROM users WHERE id ={str(id)}')
     myresult = mycursor.fetchall()
     
     if myresult == []:
         return "User not yet registrated"
     else:
         return myresult[0]
+
+
 
 def get_user_ids():
     mycursor = get_cursor()
@@ -70,25 +72,26 @@ def post_new_url(type_, name, url):
 def post_new_user_data(id, type_, dataset):
     
     mycursor = get_cursor()
-    mycursor.execute(f'SELECT {type_} from users WHERE id = {id}')
-    myresult = mycursor.fetchall()
-    myresult = myresult[0][0]
-    myresult = myresult.split(',')
-    upload_data = ""
+    #mycursor.execute(f'SELECT {type_} from users WHERE id = {id}')
+    #myresult = mycursor.fetchall()
+    #myresult = myresult[0][0]
+    #myresult = myresult.split(',')
+    #upload_data = ""
 
 
-    for data in dataset:
-        if data not in myresult:
-            upload_data += data + ","
-        else:
-            logger.debug(f'found dublicate {data}')
-            print(f'found duplicate {data}')
+    #for data in dataset:
+    #    if data not in myresult:
+    #        upload_data += data + ","
+    #    else:
+    #        logger.debug(f'found dublicate {data}')
+    #        print(f'found duplicate {data}')
 
-    for result in myresult:
-        if result != '':
-            upload_data += result + ","
+    #for result in myresult:
+    #    if result != '':
+    #        upload_data += result + ","
 
-    mycursor.execute(f'UPDATE users SET {type_} = "{upload_data}" WHERE id = {id}')
+    mycursor.execute(f'UPDATE users SET {type_} = "{dataset}" WHERE id = {id}')
+    logger.debug(f'UPDATE users SET {type_} = "{dataset}" WHERE id = {id}')
     mydb.commit()
 
 

@@ -27,6 +27,7 @@ def telegram_bot():
         dp.add_handler(CommandHandler('register', bot_register_command))
         dp.add_handler(CommandHandler('add', bot_add_orte))
         dp.add_handler(CommandHandler('get', bot_get_daten))
+        dp.add_handler(CommandHandler('del', bot_remove_orte))
 
 
         dp.add_handler(MessageHandler(Filters.text, bot_handle_message))
@@ -39,7 +40,6 @@ def telegram_bot():
         print('telegram bot ready')
         updater.start_polling(1.0)
         updater.idle()
-
     except Unauthorized as e:
         logger.error("Unauthorized, invalid api key?")
     except KeyboardInterrupt as e:
