@@ -5,6 +5,7 @@ import sys
 sys.path.append('.')
 from daily_informer.db.db_handler import post_new_url
 
+
 def url_validator(url):
     raw_data = []
     unparsed_page = requests.get(url).content

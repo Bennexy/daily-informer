@@ -1,8 +1,6 @@
-test = ['/del', 'test', 'ich', 'bin', 'der', 'beeen']
-string = 'hallo dies ist ein test'
+import telegram
 
-test.remove('/del')
+print(telegram.error.__dict__)
 
 
-print(test)
-
+from telegram.error import Unauthorized

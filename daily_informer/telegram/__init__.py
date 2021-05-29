@@ -1,22 +1,22 @@
+import os
 import sys
 import json
 import requests
 import telegram
-from telegram.error import Unauthorized
+
 sys.path.append('.')
 from daily_informer.config import API_TOKEN
 from daily_informer.telegram.bot_functions import *
 from daily_informer.logger import get_logger
-
-
+from telegram.error import Unauthorized
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 
 logger = get_logger('bot_starter')
 
-def telegram_bot():
+def telegram_bot(): 
     try:
-        logger.info('starting telegram bot')
+        logger.info(f'starting telegram bot with process id: {os.getpid()}')
         updater = Updater(API_TOKEN, use_context=True)
         dp = updater.dispatcher
 
@@ -40,13 +40,8 @@ def telegram_bot():
         print('telegram bot ready')
         updater.start_polling(1.0)
         updater.idle()
-    except Unauthorized as e:
-        logger.error("Unauthorized, invalid api key?")
-    except KeyboardInterrupt as e:
-        logger.info("shutting down telegram bot")
-        print("shutting down telegram bot")
     except Exception as e:
-        logger.error(f"Exception {e} of type {type(e)} occured")
+        logger.error(f"{e}, invalid api key?")
 
 if __name__ == '__main__':
     telegram_bot()

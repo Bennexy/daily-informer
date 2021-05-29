@@ -1,6 +1,7 @@
 import logging
 import sys
 from logging.handlers import TimedRotatingFileHandler
+from os import getenv as env
 from os import environ
 
 FORMATTER = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -23,38 +24,40 @@ def get_logger(logger_name, add_log_file=True):
     logger = logging.getLogger(logger_name)
     logger.setLevel(get_logger_level())
     # logger.setLevel(logging.INFO)
-    logger.setLevel(logging.DEBUG)
-    logger.addHandler(get_console_handler())
+    #logger.setLevel(logging.DEBUG)
+    
     # requests_log = logging.getLogger("requests.packages.urllib3")
     # requests_log.setLevel(logging.DEBUG)
     # requests_log.propagate = True
-    #if add_log_file:
-    #    logger.addHandler(get_file_handler())
+    if print_log_to_console():
+        logger.addHandler(get_console_handler())
+    if add_log_file:
+        logger.addHandler(get_file_handler())
     logger.propagate = True
     return logger
 
 
 def get_logger_level():
-    key = "LOG_LEVEL"
+    key = env("LOG_LEVEL")
     if key in environ:
-        if environ.get(key) in ("CRITICAL", "FATAL"):
+        if key in ("CRITICAL", "FATAL"):
             return logging.CRITICAL
-        if environ.get(key) in ("ERROR"):
+        if key in ("ERROR"):
             return logging.ERROR
-        if environ.get(key) in ("WARNING", "FATAL"):
+        if key in ("WARNING", "FATAL"):
             return logging.WARNING
-        if environ.get(key) in ("INFO"):
+        if key in ("INFO"):
             return logging.INFO
-        if environ.get(key) in ("DEBUG"):
+        if key in ("DEBUG"):
             return logging.DEBUG
         return logging.ERROR
     return logging.ERROR
 
 
 def print_log_to_console():
-    key = "LOG_TO_CONSOLE"
+    key =env("LOG_TO_CONSOLE")
     if key in environ:
-        if environ.get(key).upper() in ("TRUE"):
+        if key.upper() in ("TRUE"):
             return True
         try:
             res = int(environ.get(key))

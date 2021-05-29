@@ -106,8 +106,6 @@ def bot_remove_orte(update, context):
     else:
         update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
         update.message.reply_text('please enter /del <wetter> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
-    
-
 
 @auth
 def bot_handle_message(update, context):
@@ -123,7 +121,7 @@ def bot_handle_message(update, context):
 
 def bot_error(update, context):
     # Logs errors
-    logger.debug(f'Update {str(update.message.text).lower()} caused error {context.error}')
+    logger.error(f'Update {str(update.message.text).lower()} caused error {context.error}')
 
 
 help_commands = {
