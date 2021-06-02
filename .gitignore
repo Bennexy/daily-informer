@@ -1,0 +1,10 @@
+venv/*
+.env
+daily-informer/src/google/token.pickle
+daily-informer.log
+.vscode/*
+daily-informer.log.*
+*.cpython-*.pyc
+__pychance__/*
+*.log
+.idea/*
