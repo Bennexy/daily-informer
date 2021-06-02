@@ -21,7 +21,7 @@ pip install -r requirements.txt > buffer
 rm -rf buffer
 
 
-venv/bin/python $ABSPATH/daily-informer/telegram/__init__.py
+venv/bin/python $ABSPATH/daily_informer/telegram/__init__.py
 
 
 
