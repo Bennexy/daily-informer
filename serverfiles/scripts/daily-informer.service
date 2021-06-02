@@ -3,10 +3,10 @@ Description=Daily informer Service
 After=network.target
 
 [Service]
-Type=forking
-User=daily-informer
-Group=daily-informer
-ExecStart=/bin/sh /opt/daily-informer/serverfiles/start.sh ##ADD PATH TO startup.sh HERE##
+
+Type=simple
+User=root
+ExecStart=/bin/sh /opt/daily-informer/serverfiles/start.sh
 
 [Install]
 WantedBy=multi-user.target
