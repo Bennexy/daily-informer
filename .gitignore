@@ -6,3 +6,4 @@ daily-informer.log
 daily-informer.log.2021-05-23
 *.cpython-38.pyc
 __pychance__
+*.log

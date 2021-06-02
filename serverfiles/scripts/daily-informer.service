@@ -6,7 +6,7 @@ After=network.target
 Type=forking
 User=daily-informer
 Group=daily-informer
-ExecStart=/bin/sh ##ADD PATH TO startup.sh HERE##
+ExecStart=/bin/sh /opt/daily-informer/serverfiles/start.sh ##ADD PATH TO startup.sh HERE##
 
 [Install]
 WantedBy=multi-user.target

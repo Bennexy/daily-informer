@@ -1,5 +1,5 @@
 
-ABSPATH=$HOME/python/daily-informer
+ABSPATH=/opt/daily-informer
 
 cd $ABSPATH
 
@@ -22,3 +22,6 @@ rm -rf buffer
 
 
 venv/bin/python $ABSPATH/daily-informer/telegram/__init__.py
+
+
+
