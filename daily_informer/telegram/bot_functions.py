@@ -27,7 +27,8 @@ def auth(func):
     return inner
 
 def bot_start_command(update, context):
-    update.message.reply_text('Hello there! I\'m your personal bot. Type /help to see al options!')
+    update.message.reply_text('Hello there! I\'m your personal bot. Type /help to see all options!')
+    update.message.reply_text("Note that to use this bot you have to register. We will save your unique user id in a private database and save the locations that you want to get the reports for. Use at your own risk!")
 
 def bot_help_command(update, context):
     text = ""
@@ -126,5 +127,9 @@ def bot_error(update, context):
 
 help_commands = {
     "/help": {"description": "displays all functions", "function": bot_help_command},
-    "/start": {"description": "sends the start message", "function": bot_start_command}
+    "/start": {"description": "sends the start message", "function": bot_start_command},
+    "/add": {"description": "adds a new location to your report", "function": bot_add_orte},
+    "/del": {"description": "removes a location from your report", "function": bot_remove_orte},
+    "/register": {"description": "Registers you as a user. We will save your user number and the locations that you want reported in a private database.", "function": bot_add_orte},
+    "/get": {"description": "returns your report", "function": bot_get_daten}
     }
