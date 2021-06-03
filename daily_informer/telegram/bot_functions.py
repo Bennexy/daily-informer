@@ -85,7 +85,6 @@ def bot_add_orte(update, context):
         update.message.reply_text("please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
         update.message.reply_text('please enter /add <wetter> <orte (zum hinzufügen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
 
-
 @auth
 def bot_get_daten(update, context):
     id = update.message.chat.id 
@@ -173,5 +172,7 @@ help_commands = {
     "/add": {"description": "adds a new location to your report", "function": bot_add_orte},
     "/del": {"description": "removes a location from your report", "function": bot_remove_orte},
     "/register": {"description": "Registers you as a user. We will save your user number and the locations that you want reported in a private database.", "function": bot_add_orte},
-    "/get": {"description": "returns your report", "function": bot_get_daten}
-    }
+    "/get": {"description": "returns your report", "function": bot_get_daten},
+    "/relaod": {"description": "reloads user ids use if you have registrated but you cant acces the bit functions", "function": bot_reload_command},
+    "/test": {"description": "test fetches data - use to check if bot can find data with your parameters", "function": bot_test_data_fetch}
+}

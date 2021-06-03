@@ -38,7 +38,7 @@ def telegram_bot():
 
         # Run the bot
         logger.info('telegram bot ready')
-        print('telegram bot ready')
+        #print('telegram bot ready')
         updater.start_polling(1.0)
         updater.idle()
     except Exception as e:
