@@ -28,6 +28,7 @@ def telegram_bot():
         dp.add_handler(CommandHandler('add', bot_add_orte))
         dp.add_handler(CommandHandler('get', bot_get_daten))
         dp.add_handler(CommandHandler('del', bot_remove_orte))
+        dp.add_handler(CommandHandler("test", bot_test_data_fetch))
 
 
         dp.add_handler(MessageHandler(Filters.text, bot_handle_message))

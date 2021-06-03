@@ -27,6 +27,7 @@ def add_user(id, username):
 
 def add_to_db(id, type_, data):
     logger.debug(f'data to add to the database {data}')
+    data = preprocess_data(data)
     
     if 'landkreis' == type_:
         post_new_user_data(id, 'corona_landkreis' ,data)
@@ -41,6 +42,7 @@ def add_to_db(id, type_, data):
 
 def delete_from_db(id, type_, data):
     logger.debug(f'data to add to the database {data}')
+    data = preprocess_data(data)
     
     if 'landkreis' == type_:
         delete_user_data(id, 'corona_landkreis' ,data)
@@ -62,6 +64,14 @@ def fetch_data(id):
     raw_infos = get_infos_from_webpages(urls)
     
     return prepare_string(raw_infos)
+
+def preprocess_data(data):
+    output = []
+    for ort in data:
+        output.append(ort.replace("-", " "))
+    
+    return output
+    
 
 
 

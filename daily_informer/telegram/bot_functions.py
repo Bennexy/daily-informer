@@ -5,6 +5,7 @@ import requests
 sys.path.append('.')
 from daily_informer.logger import get_logger
 from daily_informer.telegram.bot_actions import *
+from daily_informer.apps.openweather_map import get_wetter_data
 
 # Set up the logger
 logger = get_logger('bot_functions')
@@ -71,14 +72,14 @@ def bot_add_orte(update, context):
             add_to_db(id, type_, text)
             update.message.reply_text('added corona data to the db')
         else:
-            update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
+            update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
     
     elif type_base.lower() == 'wetter' and len(text) >= 1:
         logger.debug(f'input for add wetter: {text}')
         add_to_db(id, type_base, text)
         update.message.reply_text('added wether data to the db')
     else:
-        update.message.reply_text('please enter \n/add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)> \n/add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen)>')
+        update.message.reply_text('please enter \n/add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)> \n/add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
 
 @auth
 def bot_get_daten(update, context):
@@ -101,19 +102,53 @@ def bot_remove_orte(update, context):
             delete_from_db(id, type_, text)
             
         else:
-            update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
+            update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
     elif type_ == 'wetter':
         delete_from_db(id, type_, text)
     else:
-        update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
-        update.message.reply_text('please enter /del <wetter> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten)>')
+        update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+        update.message.reply_text('please enter /del <wetter> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
 
 @auth
 def bot_handle_message(update, context):
     update.message.reply_text(update.message.text)
 
 
-    
+def bot_test_data_fetch(update, context):
+    text = str(update.message.text).lower().split(' ')
+    logger.info(f"recieved test task {text}")
+    del text[0]
+    if len(text) != 0:
+        type_base = text.pop(0)
+        if type_base.lower() == "corona" or type_base.lower() == "covid":
+            type_ = text.pop(0) 
+            if type_.lower() in ['landkreis', 'bundesland', 'land'] and len(text) >= 1:
+                for ort in text:
+                    ort = ort.replace("-", " ")
+                    url = url_finder(type_, ort)
+
+                    if url != 'url not yet registrated':
+                        if type_.lower() == 'landkreis':
+                            data = get_info_landkreis(url, ort)
+                        elif type_.lower() == 'bundesland':
+                            data = get_info_bundesland(url, ort)
+                        elif type_.lower() == 'land':
+                            data = get_info_land(url, ort)
+                        else:
+                            data = "Error"
+
+                        update.message.reply_text(data)
+
+        elif type_base.lower() == "wetter" and len(text) >= 1:
+            data = get_wetter_data(text)
+
+            for ort, value in data.items():
+                update.message.reply_text(ort, value)
+    else:
+        update.message.reply_text("please enter /del <corona> <landkreis/bundesland/land> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
+        update.message.reply_text('please enter /del <wetter> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+
+
     
     
 
