@@ -3,6 +3,9 @@ import sys
 import json
 sys.path.append('.')
 from daily_informer.config import API_KEY_OPEN_WEATHER
+from daily_informer.logger import get_logger
+
+logger = get_logger("get-wetter-data")
 
 #orte = ["MarktSchwaben", "münchen"]
 #for ort in orte:
@@ -19,9 +22,11 @@ def get_wetter_data(orte):
         res = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={ort}&appid={API_KEY_OPEN_WEATHER}")
 
         if res.status_code != 200:
+            logger.error(f"invalid ort value {ort}, respons = {res.status_code}")
             data[ort] =  {'error': res.status_code, 'message' : f"Ort {ort} not found"}
             pass
         else:
+            logger.info(f"found data")
 
             result = json.loads(res.text)
             data[ort] = {

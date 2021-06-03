@@ -64,22 +64,27 @@ def bot_add_orte(update, context):
     id = update.message.chat.id
     logger.debug(f'input for add: {text}')
     del text[0]
-    type_base = text.pop(0)
-    if type_base.lower() == 'corona' or type_base.lower() =="covid":
-        type_ = text.pop(0)
-        logger.debug(f'input for add corona: {text}')
-        if type_.lower() in ['landkreis', 'bundesland', 'land'] and len(text) >= 1:
-            add_to_db(id, type_, text)
-            update.message.reply_text('added corona data to the db')
+    if len(text) != 0:
+        type_base = text.pop(0)
+        if type_base.lower() == 'corona' or type_base.lower() =="covid":
+            type_ = text.pop(0)
+            logger.debug(f'input for add corona: {text}')
+            if type_.lower() in ['landkreis', 'bundesland', 'land'] and len(text) >= 1:
+                add_to_db(id, type_, text)
+                update.message.reply_text('added corona data to the db')
+            else:
+                update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+        
+        elif type_base.lower() == 'wetter' and len(text) >= 1:
+            logger.debug(f'input for add wetter: {text}')
+            add_to_db(id, type_base, text)
+            update.message.reply_text('added wether data to the db')
         else:
-            update.message.reply_text('please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
-    
-    elif type_base.lower() == 'wetter' and len(text) >= 1:
-        logger.debug(f'input for add wetter: {text}')
-        add_to_db(id, type_base, text)
-        update.message.reply_text('added wether data to the db')
+            update.message.reply_text('please enter \n/add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)> \n/add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
     else:
-        update.message.reply_text('please enter \n/add <wetter> <orte (zum hinzufügen geteilt mit einem leerzeichen)> \n/add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen geteilt mit einem leerzeichen. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+        update.message.reply_text("please enter /add <corona> <landkreis/bundesland/land> <orte (zum hinzufügen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
+        update.message.reply_text('please enter /add <wetter> <orte (zum hinzufügen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+
 
 @auth
 def bot_get_daten(update, context):
@@ -140,13 +145,15 @@ def bot_test_data_fetch(update, context):
                         update.message.reply_text(data)
 
         elif type_base.lower() == "wetter" and len(text) >= 1:
+            logger.info("getting wetter data")
             data = get_wetter_data(text)
 
-            for ort, value in data.items():
-                update.message.reply_text(ort, value)
+
+            update.message.reply_text(data)
+            
     else:
-        update.message.reply_text("please enter /del <corona> <landkreis/bundesland/land> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
-        update.message.reply_text('please enter /del <wetter> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
+        update.message.reply_text("please enter /test <corona> <landkreis/bundesland/land> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
+        update.message.reply_text('please enter /test <wetter> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
 
 
     
