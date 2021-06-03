@@ -28,6 +28,7 @@ def telegram_bot():
         dp.add_handler(CommandHandler('add', bot_add_orte))
         dp.add_handler(CommandHandler('get', bot_get_daten))
         dp.add_handler(CommandHandler('del', bot_remove_orte))
+        dp.add_handler(CommandHandler("test", bot_test_data_fetch))
 
 
         dp.add_handler(MessageHandler(Filters.text, bot_handle_message))
@@ -37,7 +38,7 @@ def telegram_bot():
 
         # Run the bot
         logger.info('telegram bot ready')
-        print('telegram bot ready')
+        #print('telegram bot ready')
         updater.start_polling(1.0)
         updater.idle()
     except Exception as e:

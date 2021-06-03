@@ -23,7 +23,8 @@ def get_file_handler():
 def get_logger(logger_name, add_log_file=True):
     logger = logging.getLogger(logger_name)
     logger.setLevel(get_logger_level())
-    # logger.setLevel(logging.INFO)
+    
+    #logger.setLevel(logging.INFO)
     #logger.setLevel(logging.DEBUG)
     
     # requests_log = logging.getLogger("requests.packages.urllib3")
@@ -34,35 +35,30 @@ def get_logger(logger_name, add_log_file=True):
     if add_log_file:
         logger.addHandler(get_file_handler())
     logger.propagate = True
+
+    #print(f"logger level {env('LOG_LEVEL')}, console handler {env('LOG_TO_CONSOLE')}")
     return logger
 
 
 def get_logger_level():
     key = env("LOG_LEVEL")
-    if key in environ:
-        if key in ("CRITICAL", "FATAL"):
-            return logging.CRITICAL
-        if key in ("ERROR"):
-            return logging.ERROR
-        if key in ("WARNING", "FATAL"):
-            return logging.WARNING
-        if key in ("INFO"):
-            return logging.INFO
-        if key in ("DEBUG"):
-            return logging.DEBUG
+    if key in ("CRITICAL", "FATAL"):
+        return logging.CRITICAL
+    elif key in ("ERROR"):
         return logging.ERROR
-    return logging.ERROR
+    elif key in ("WARNING", "FATAL"):
+        return logging.WARNING
+    elif key in ("INFO"):
+        return logging.INFO
+    elif key in ("DEBUG"):
+        return logging.DEBUG
+    else:
+        return logging.ERROR
 
 
 def print_log_to_console():
-    key =env("LOG_TO_CONSOLE")
-    if key in environ:
-        if key.upper() in ("TRUE"):
-            return True
-        try:
-            res = int(environ.get(key))
-            if res == 1:
-                return True
-        except ValueError:
-            return False
-    return False
+    key = env("LOG_TO_CONSOLE")
+    if key.upper() in ("TRUE"):
+        return True
+    else:
+        return False
