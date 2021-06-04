@@ -102,7 +102,7 @@ def delete_user_data(id, type_, dataset):
     data_out = myresult
 
     for ort in dataset:
-        data_out.remove(ort)
+        data_out.remove(ort.replace("-", " "))
 
     data_out = ','.join(data_out)
 
