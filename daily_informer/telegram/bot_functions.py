@@ -104,11 +104,13 @@ def bot_remove_orte(update, context):
         type_ = text.pop(0)
         if type_ in ['landkreis', 'bundesland', 'land']:
             delete_from_db(id, type_, text)
+            update.message.reply_text("deleted entry out of db")
             
         else:
             update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
     elif type_ == 'wetter':
         delete_from_db(id, type_, text)
+        update.message.reply_text("deleted entry out of db")
     else:
         update.message.reply_text('please enter /del <corona> <landkreis/bundesland/land> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
         update.message.reply_text('please enter /del <wetter> <orte (zum entfernen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>')
@@ -145,10 +147,11 @@ def bot_test_data_fetch(update, context):
 
         elif type_base.lower() == "wetter" and len(text) >= 1:
             logger.info("getting wetter data")
-            data = get_wetter_data(text)
+            for ort in text:
+                data = get_wetter_data(ort)
 
 
-            update.message.reply_text(data)
+                update.message.reply_text(data)
             
     else:
         update.message.reply_text("please enter /test <corona> <landkreis/bundesland/land> <orte (zum testen von mehreren objekten geteilt mit einem leerzeichen auflisten. Falls ort aus zwei namen besteht mit eimen bindestrich trennen)>")
@@ -164,7 +167,7 @@ def bot_test_data_fetch(update, context):
 def bot_error(update, context):
     # Logs errors
     logger.error(f'Update {str(update.message.text).lower()} caused error {context.error}')
-
+    update.message.reply_text(f'a Error ocured: {context.error}')
 
 help_commands = {
     "/help": {"description": "displays all functions", "function": bot_help_command},
